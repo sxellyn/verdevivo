@@ -1,11 +1,21 @@
 package com.verdevivo.models;
 
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "users") // nome da tabela no banco
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    // a relação aqui é 1:N → um usuário pode ter várias plantas
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Plant> plants;
+
     private String name;
     private String password;
     private String email;
@@ -23,7 +33,9 @@ public class User {
         this.email = email;
     }
 
-    // Getters e Setters
+    // Getters and Setters:
+
+    // id
     public int getId() {
         return id;
     }
@@ -32,6 +44,7 @@ public class User {
         this.id = id;
     }
 
+    // plants
     public List<Plant> getPlants() {
         return plants;
     }
@@ -40,6 +53,7 @@ public class User {
         this.plants = plants;
     }
 
+    // name
     public String getName() {
         return name;
     }
@@ -48,6 +62,7 @@ public class User {
         this.name = name;
     }
 
+    // password
     public String getPassword() {
         return password;
     }
@@ -56,6 +71,7 @@ public class User {
         this.password = password;
     }
 
+    // email
     public String getEmail() {
         return email;
     }
@@ -64,4 +80,15 @@ public class User {
         this.email = email;
     }
 
+    // to print: 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", plants=" + plants +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

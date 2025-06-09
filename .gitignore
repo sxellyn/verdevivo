@@ -1,0 +1,32 @@
+# Ignore arquivos de build e dependências
+/target/
+/bin/
+/build/
+
+# Ignore arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignore arquivos de log e temporários
+*.log
+*.tmp
+
+# Ignore configurações específicas da IDE
+/.idea/
+/*.iml
+*.swp
+*.bak
+
+# Ignore arquivos de sistema operacional
+ehthumbs.db
+desktop.ini
+
+# Maven wrapper output
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignore arquivos de segurança ou backup
+*.orig
+*.rej
+
+# Ignore o diretório .git caso ele esteja na pasta zipada
+/.git/

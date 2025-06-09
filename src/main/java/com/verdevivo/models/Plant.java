@@ -1,12 +1,21 @@
 package com.verdevivo.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "plants") // name of the table
 public class Plant {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String species;
     private String description;
     private Boolean isWatered = false;
+
+    @Column(name = "user_id")
     private int userId;
 
     // constructor
@@ -77,5 +86,18 @@ public class Plant {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    // to print:
+    @Override
+    public String toString() {
+        return "Plant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", species='" + species + '\'' +
+                ", description='" + description + '\'' +
+                ", isWatered=" + isWatered +
+                ", userId=" + userId +
+                '}';
     }
 }
