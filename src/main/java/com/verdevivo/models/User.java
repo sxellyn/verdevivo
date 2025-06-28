@@ -1,7 +1,14 @@
 package com.verdevivo.models;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users") // nome da tabela no banco
@@ -11,7 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // a relação aqui é 1:N → um usuário pode ter várias plantas
+    //the relationship here is 1:N → a user can have multiple plants
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Plant> plants;
