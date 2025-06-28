@@ -1,7 +1,8 @@
 package com.verdevivo.controllers;
 
 import com.verdevivo.models.User;
-import com.verdevivo.repositories.UserRepository;
+import com.verdevivo.models.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
