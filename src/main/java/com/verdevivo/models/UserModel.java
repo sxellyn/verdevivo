@@ -19,7 +19,7 @@ public class UserModel {
     public User getUserById(int id) throws Exception {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
-            throw new Exception("USUÁRIO NÃO EXISTE.");
+            throw new Exception("USER DOESN'T EXIST.");
         }
         return user.get();
     }
@@ -27,11 +27,12 @@ public class UserModel {
     public List<User> getUsersByName(String name) throws Exception {
         List<User> users = userRepository.findByNameContainingIgnoreCase(name);
         if (users.isEmpty()) {
-            throw new Exception("NENHUM USUÁRIO ENCONTRADO.");
+            throw new Exception("USER DOESN'T EXIST.");
         }
         return users;
     }
 
+    // save fuction already puts a throw auto.
     public User createUser(User user) throws Exception {
         return userRepository.save(user);
     }
@@ -39,7 +40,7 @@ public class UserModel {
     public User updateUser(int id, User updatedUser) throws Exception {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
-            throw new Exception("USUÁRIO NÃO EXISTE.");
+            throw new Exception("USER DOESN'T EXIST.");
         }
 
         User user = userOptional.get();
@@ -54,7 +55,7 @@ public class UserModel {
     public void deleteUserById(int id) throws Exception {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
-            throw new Exception("USUÁRIO NÃO EXISTE.");
+            throw new Exception("USER DOESN'T EXIST.");
         }
         userRepository.deleteById(id);
     }
