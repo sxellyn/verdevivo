@@ -2,6 +2,7 @@ package com.verdevivo.models;
 
 import com.verdevivo.models.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +59,13 @@ public class UserModel {
             throw new Exception("USER DOESN'T EXIST.");
         }
         userRepository.deleteById(id);
+    }
+
+        public User getUsersByEmail(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("USER DOESN'T EXIST.");
+        }
+        return user;
     }
 }

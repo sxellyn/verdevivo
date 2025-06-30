@@ -75,4 +75,15 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/{email}")
+    public User getUsersByEmail(@RequestParam String email) {
+        try {
+            return userModel.getUsersByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
