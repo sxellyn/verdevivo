@@ -1,8 +1,10 @@
 package com.verdevivo.controllers;
 
 import com.verdevivo.models.User;
-import com.verdevivo.repositories.UserRepository;
+import com.verdevivo.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,48 +14,65 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserModel userModel;
 
-    // GET all users
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        try {
+            return userModel.getAllUsers();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // GET user by ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) {
-        return userRepository.findById(id).orElse(null);
+        try {
+            return userModel.getUserById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // GET users by name (partial match, case insensitive)
     @GetMapping("/search")
     public List<User> getUsersByName(@RequestParam String name) {
-        return userRepository.findByNameContainingIgnoreCase(name);
+        try {
+            return userModel.getUsersByName(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // POST new user
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        try {
+            return userModel.createUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // PUT (update) user by ID
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User updatedUser) {
-        return userRepository.findById(id).map(user -> {
-            user.setName(updatedUser.getName());
-            user.setEmail(updatedUser.getEmail());
-            user.setPassword(updatedUser.getPassword());
-            user.setPlants(updatedUser.getPlants());
-            return userRepository.save(user);
-        }).orElse(null);
+    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
+        try {
+            User user = userModel.updateUser(id, updatedUser);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    // DELETE user by ID
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+        try {
+            userModel.deleteUserById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-
 }

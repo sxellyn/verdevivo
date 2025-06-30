@@ -1,4 +1,4 @@
-package com.verdevivo.repositories;
+package com.verdevivo.models.repositories;
 
 import com.verdevivo.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

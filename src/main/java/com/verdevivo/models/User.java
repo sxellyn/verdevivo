@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users") // nome da tabela no banco
+@Table(name = "users") // table name on db
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // a relação aqui é 1:N → um usuário pode ter várias plantas
+    // the relation: 1:N → one user can have many plants
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Plant> plants;
