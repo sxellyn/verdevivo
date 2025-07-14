@@ -60,4 +60,5 @@ public class PlantModel {
         }
         plantRepository.deleteById(id);
     }
+
 }
