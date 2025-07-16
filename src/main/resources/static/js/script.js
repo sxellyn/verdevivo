@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
 
-      // Optionally store the token
+      // store the token
       localStorage.setItem("token", data.token);
 
       message.textContent = "🌿 Login successful! Redirecting...";
       message.style.color = "#3b7a57";
 
-      // Redirect to dashboard
+      // go to dashboard
       setTimeout(() => {
         window.location.href = "dashboard.html";
       }, 1000);
@@ -39,4 +39,48 @@ document.addEventListener("DOMContentLoaded", () => {
       message.style.color = "#b85c5c";
     }
   });
+
+  // Sign Up modal
+  const openSignupBtn       = document.getElementById("openSignupBtn");
+  const signupModal         = document.getElementById("signupModal");
+  const closeSignupModalBtn = document.getElementById("closeSignupModal");
+
+  openSignupBtn.addEventListener("click", () => {
+    signupModal.style.display = "flex";
+  });
+  closeSignupModalBtn.addEventListener("click", () => {
+    signupModal.style.display = "none";
+  });
+  window.addEventListener("click", e => {
+    if (e.target === signupModal) signupModal.style.display = "none";
+  });
+
+  // send sign up data
+  document.getElementById("signupForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const name     = document.getElementById("signupName").value.trim();
+    const email    = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
+    const msgEl    = document.getElementById("signupMessage");
+
+    try {
+      const res = await fetch("http://localhost:8080/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+      if (!res.ok) throw new Error(await res.text() || "Registration failed.");
+      msgEl.style.color = "#3b7a57";
+      msgEl.textContent = "✅ Account created! Please log in.";
+      setTimeout(() => {
+        signupModal.style.display = "none";
+        msgEl.textContent = "";
+      }, 1500);
+    } catch (err) {
+      msgEl.style.color = "#b85c5c";
+      msgEl.textContent = "❌ " + err.message;
+    }
+  });
+
+
 });

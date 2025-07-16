@@ -33,10 +33,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // disable csrf 
             .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler)) //unauthorized attempt handler
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //disable http session using stateless api
-            .authorizeHttpRequests(auth -> auth //says which endpoints are private/public
-                .requestMatchers("/auth/login").permitAll()
-                .requestMatchers("/index.html", "/dashboard.html", "/css/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
+.authorizeHttpRequests(auth -> auth //says which endpoints are private/public
+    .requestMatchers("/auth/login").permitAll()
+    .requestMatchers("/users").permitAll() //to sign in users
+    .requestMatchers("/index.html", "/dashboard.html", "/css/**", "/js/**").permitAll()
+    .anyRequest().authenticated()
             )
             .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class); //add custom jwt before original one
 

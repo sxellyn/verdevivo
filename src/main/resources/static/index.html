@@ -15,8 +15,28 @@
       <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Log In</button>
       <p id="message" class="message"></p>
-    </form>
+
+          <!--button Sign Up-->
+<button id="openSignupBtn" class="login-box signup-btn">Sign Up</button>  
+    </form> 
   </div>
+
+
+  <!-- Sign Up Modal-->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeSignupModal">×</span>
+      <h2>Create Account</h2>
+      <form id="signupForm">
+        <input type="text" id="signupName"     placeholder="Full Name" required />
+        <input type="email" id="signupEmail"   placeholder="Email"     required />
+        <input type="password" id="signupPassword" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+      <p id="signupMessage" class="message"></p>
+    </div>
+  </div>
+
 <script src="js/script.js"></script>
 </body>
 </html>

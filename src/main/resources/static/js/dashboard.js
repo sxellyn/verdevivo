@@ -34,13 +34,13 @@ function renderPlants(filter = "") {
       <div class="actions">
 <button class="water-btn" data-id="${plant.id}" title="Toggle Watered">
  <i class="fas fa-tint" style="font-size: 1.2em; color: ${
-  plant.isWatered ? "#00bcd4" : "#2e7d32" 
-};"></i>
+   plant.isWatered ? "#00bcd4" : "#2e7d32"
+ };"></i>
 </button>
-          <i class="fas fa-edit edit-icon" title="Edit" data-id="${
+          <i class="fas fa-edit edit-icon" title="Edit" style="font-size: 1.2em; color: #2e7d32;" data-id="${
             plant.id
           }"></i>
-          <i class="fas fa-trash delete-icon" title="Delete" data-id="${
+          <i class="fas fa-trash delete-icon" title="Delete" style="font-size: 1.2em; color: #cc4444;" data-id="${
             plant.id
           }"></i>
       </div>
@@ -49,7 +49,7 @@ function renderPlants(filter = "") {
     plantList.appendChild(li);
   });
 
-  // 🗑️ Botão de deletar
+  // delete button
   document.querySelectorAll(".delete-icon").forEach((icon) => {
     icon.addEventListener("click", async (e) => {
       const id = e.target.getAttribute("data-id");
@@ -65,7 +65,7 @@ function renderPlants(filter = "") {
     });
   });
 
-  // 🔁 Botão de alternar regado
+  // watered button
   document.querySelectorAll(".water-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
       const btn = e.currentTarget;
@@ -90,7 +90,7 @@ function renderPlants(filter = "") {
 
         if (!response.ok) throw new Error("Failed to update plant.");
 
-        // atualiza localmente também
+        // refresh locally
         plant.isWatered = !plant.isWatered;
         renderPlants(searchInput.value);
       } catch (err) {
@@ -177,7 +177,11 @@ searchInput.addEventListener("input", (e) => {
 });
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
-  alert("👋 Logging out...");
+  localStorage.removeItem("token");
+  console.log("👋 Logging out...");
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 500); // meio segundo antes do redirecionamento
 });
 
 async function fetchPlants() {
@@ -197,7 +201,7 @@ async function fetchPlants() {
 
 fetchPlants();
 
-// Open the Add Plant modal
+// Open Add Plant modal
 document.getElementById("addBtn").addEventListener("click", () => {
   document.getElementById("addModal").style.display = "block";
 });

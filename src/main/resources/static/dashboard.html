@@ -23,25 +23,28 @@
     <ul id="plantList" class="plant-list"></ul>
   </div>
 
-  <!-- Add Plant Modal -->
+<!-- Add Plant Modal -->
 <div id="addModal" class="modal">
   <div class="modal-content">
     <h3>Add New Plant 🌿</h3>
     <form id="addPlantForm">
       <input type="text" id="plantName" placeholder="Plant name" required />
-      <input type="text" id="plantSpecies" placeholder="Species" required />
+      <input type="text" id="plantSpecies" placeholder="Species" required /> <br>
       <textarea id="plantDescription" placeholder="Description" rows="3"></textarea>
 
-      <label class="switch-label">
-        <input type="checkbox" id="plantWatered" />
-        <span class="switch-slider"></span>
-        Watered?
-      </label>
+<label class="switch-label">
+  <span class="switch">
+    <input type="checkbox" id="plantWatered" />
+    <span class="slider"></span>
+  </span>
+  Watered?
+</label>
 
       <button type="submit">Add</button>
     </form>
   </div>
 </div>
+
 
 <script src="js/dashboard.js"></script>
 </body>
