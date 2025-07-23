@@ -30,52 +30,52 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public ResponseEntity<?> getAllUsers() {
         try {
-            return userModel.getAllUsers();
+            List<User> users = userModel.getAllUsers();
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
         try {
-            return userModel.getUserById(id);
+            User user = userModel.getUserById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/search")
-    public List<User> getUsersByName(@RequestParam String name) {
+    public ResponseEntity<?> getUsersByName(@RequestParam String name) {
         try {
-            return userModel.getUsersByName(name);
+            List<User> users = userModel.getUsersByName(name);
+            return new ResponseEntity<>(users, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            return userModel.createUser(user);
+            User created = userModel.createUser(user);
+            return new ResponseEntity<>(created, HttpStatus.CREATED);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody User updatedUser) {
         try {
             User user = userModel.updateUser(id, updatedUser);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -83,37 +83,33 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable int id) {
         try {
             userModel.deleteUserById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/{email}")
-    public User getUsersByEmail(@RequestParam String email) {
+    @GetMapping("/by-email")
+    public ResponseEntity<?> getUsersByEmail(@RequestParam String email) {
         try {
-            return userModel.getUsersByEmail(email);
+            User user = userModel.getUsersByEmail(email);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/plants")
     public ResponseEntity<?> getUserPlants(Principal principal) {
         try {
-            // Get the user's email or username from the Principal
             String email = principal.getName();
-
-            // Look up the user by email
             User user = userModel.getUsersByEmail(email);
+
             if (user == null) {
                 return new ResponseEntity<>("USER NOT FOUND", HttpStatus.UNAUTHORIZED);
             }
 
-            // Get the plants owned by this user
             List<Plant> userPlants = plantRepository.findByUserId(user.getId());
-
             return new ResponseEntity<>(userPlants, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -121,10 +117,19 @@ public class UserController {
         }
     }
 
-    @GetMapping("/users/me")
-public ResponseEntity<User> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
-    User user = userRepository.findByEmail(userDetails.getUsername());
-    return new ResponseEntity<>(user, HttpStatus.OK);
-}
+    @GetMapping("/me")
+    public ResponseEntity<?> getLoggedUser(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            User user = userRepository.findByEmail(userDetails.getUsername());
 
+            if (user == null) {
+                return new ResponseEntity<>("USER NOT FOUND", HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(user, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

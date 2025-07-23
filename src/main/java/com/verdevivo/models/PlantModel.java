@@ -13,7 +13,11 @@ public class PlantModel {
     private PlantRepository plantRepository;
 
     public List<Plant> getAllPlants() throws Exception {
-        return plantRepository.findAll();
+        List<Plant> plants = plantRepository.findAll();
+        if (plants == null || plants.isEmpty()) {
+            throw new Exception("PLANT DOESN'T EXIST.");
+        }
+        return plants;
     }
 
     public Plant getPlantById(int id) throws Exception {
@@ -32,24 +36,10 @@ public class PlantModel {
         return plants;
     }
 
-    // save fuction already puts a throw auto.
     public Plant createPlant(Plant plant) throws Exception {
-        return plantRepository.save(plant);
-    }
-    
-
-    public Plant updatePlant(int id, Plant updatedPlant) throws Exception {
-        Optional<Plant> plantOptional = plantRepository.findById(id);
-        if (plantOptional.isEmpty()) {
-            throw new Exception("PLANT DOESN'T EXIST.");
+        if (plant == null) {
+            throw new Exception("INVALID PLANT DATA.");
         }
-
-        Plant plant = plantOptional.get();
-        plant.setName(updatedPlant.getName());
-        plant.setSpecies(updatedPlant.getSpecies());
-        plant.setIsWatered(updatedPlant.getIsWatered());
-        plant.setUserId(updatedPlant.getUserId());
-
         return plantRepository.save(plant);
     }
 

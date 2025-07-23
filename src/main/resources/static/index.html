@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VerdeVivo Login</title>
-<link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <div class="container">
-    <form id="loginForm" class="login-box">
-      <h2>🌱 VerdeVivo</h2>
-      <p>Welcome back, little sprout!</p>
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Log In</button>
-      <p id="message" class="message"></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VerdeVivo Login</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form id="loginForm" class="login-box">
+        <h2>🌱 VerdeVivo</h2>
+        <p>Welcome back, little sprout!</p>
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Log In</button>
+        <p id="message" class="message"></p>
 
-          <!--button Sign Up-->
-<button id="openSignupBtn" class="login-box signup-btn">Sign Up</button>  
-    </form> 
-  </div>
-
-
-  <!-- Sign Up Modal-->
-  <div id="signupModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close" id="closeSignupModal">×</span>
-      <h2>Create Account</h2>
-      <form id="signupForm">
-        <input type="text" id="signupName"     placeholder="Full Name" required />
-        <input type="email" id="signupEmail"   placeholder="Email"     required />
-        <input type="password" id="signupPassword" placeholder="Password" required />
-        <button type="submit">Register</button>
+        <button id="openSignupBtn" class="login-box signup-btn">Sign Up</button>
       </form>
-      <p id="signupMessage" class="message"></p>
     </div>
-  </div>
 
-<script src="js/script.js"></script>
-</body>
+    <div id="signupModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" id="closeSignupModal">×</span>
+        <h2>Create Account</h2>
+        <form id="signupForm">
+          <input type="text" id="signupName" placeholder="Full Name" required />
+          <input type="email" id="signupEmail" placeholder="Email" required />
+          <input
+            type="password"
+            id="signupPassword"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Register</button>
+        </form>
+        <p id="signupMessage" class="message"></p>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
 </html>

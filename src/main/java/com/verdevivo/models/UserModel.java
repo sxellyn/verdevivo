@@ -14,7 +14,11 @@ public class UserModel {
     private UserRepository userRepository;
 
     public List<User> getAllUsers() throws Exception {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        if (users == null || users.isEmpty()) {
+            throw new Exception("USER DOESN'T EXIST.");
+        }
+        return users;
     }
 
     public User getUserById(int id) throws Exception {
@@ -33,8 +37,10 @@ public class UserModel {
         return users;
     }
 
-    // save fuction already puts a throw auto.
     public User createUser(User user) throws Exception {
+        if (user == null) {
+            throw new Exception("INVALID USER DATA.");
+        }
         return userRepository.save(user);
     }
 

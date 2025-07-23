@@ -1,6 +1,8 @@
 package com.verdevivo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.List;
 
 @Entity
@@ -16,6 +18,7 @@ public class User {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Plant> plants;
 
+    @NotBlank
     private String name;
     private String password;
     private String email;

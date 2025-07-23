@@ -143,7 +143,7 @@ toggleButtons.forEach((btn) => {
 
       if (!response.ok) throw new Error("Could not update plant status.");
 
-      fetchPlants(); // Reload updated list
+      fetchPlants(); // reload updated list
     } catch (err) {
       alert("❌ Failed to update: " + err.message);
     }
@@ -181,7 +181,7 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   console.log("👋 Logging out...");
   setTimeout(() => {
     window.location.href = "index.html";
-  }, 500); // meio segundo antes do redirecionamento
+  }, 500); //half sec before redirecting
 });
 
 async function fetchPlants() {
@@ -201,7 +201,7 @@ async function fetchPlants() {
 
 fetchPlants();
 
-// Open Add Plant modal
+// open add plant modal
 document.getElementById("addBtn").addEventListener("click", () => {
   document.getElementById("addModal").style.display = "block";
 });
@@ -241,7 +241,7 @@ document
 
       if (!response.ok) throw new Error("Could not save plant.");
 
-      // Reset modal and state
+      // reset modal and state
       document.getElementById("addModal").style.display = "none";
       document.getElementById("plantName").value = "";
       document.getElementById("plantSpecies").value = "";

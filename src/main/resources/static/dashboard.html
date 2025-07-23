@@ -1,51 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VerdeVivo Dashboard</title>
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VerdeVivo Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
 
-</head>
-
-<body>
-  <header>
-    <h1>VerdeVivo</h1>
-    <button id="logoutBtn">Logout</button>
-  </header>
-  <div class="container">
-    <div class="top-bar">
-      <input type="text" id="searchInput" placeholder="Search your plant...">
-      <button id="addBtn">Add Plant</button>
+  <body>
+    <header>
+      <h1>VerdeVivo</h1>
+      <button id="logoutBtn">Logout</button>
+    </header>
+    <div class="container">
+      <div class="top-bar">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search your plant..."
+        />
+        <button id="addBtn">Add Plant</button>
+      </div>
+      <ul id="plantList" class="plant-list"></ul>
     </div>
-    <ul id="plantList" class="plant-list"></ul>
-  </div>
 
-<!-- Add Plant Modal -->
-<div id="addModal" class="modal">
-  <div class="modal-content">
-    <h3>Add New Plant 🌿</h3>
-    <form id="addPlantForm">
-      <input type="text" id="plantName" placeholder="Plant name" required />
-      <input type="text" id="plantSpecies" placeholder="Species" required /> <br>
-      <textarea id="plantDescription" placeholder="Description" rows="3"></textarea>
+    <!-- Add Plant Modal -->
+    <div id="addModal" class="modal">
+      <div class="modal-content">
+        <h3>Add New Plant 🌿</h3>
+        <form id="addPlantForm">
+          <input type="text" id="plantName" placeholder="Plant name" required />
+          <input type="text" id="plantSpecies" placeholder="Species" required />
+          <br />
+          <textarea
+            id="plantDescription"
+            placeholder="Description"
+            rows="3"
+          ></textarea>
 
-<label class="switch-label">
-  <span class="switch">
-    <input type="checkbox" id="plantWatered" />
-    <span class="slider"></span>
-  </span>
-  Watered?
-</label>
+          <label class="switch-label">
+            <span class="switch">
+              <input type="checkbox" id="plantWatered" />
+              <span class="slider"></span>
+            </span>
+            Watered?
+          </label>
 
-      <button type="submit">Add</button>
-    </form>
-  </div>
-</div>
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </div>
 
-
-<script src="js/dashboard.js"></script>
-</body>
+    <script src="js/dashboard.js"></script>
+  </body>
 </html>

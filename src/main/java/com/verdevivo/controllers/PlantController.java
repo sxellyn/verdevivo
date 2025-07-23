@@ -22,59 +22,60 @@ public class PlantController {
 
     @Autowired
     private PlantModel plantModel;
+
     @Autowired
     private PlantRepository plantRepository;
+
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping
-    public List<Plant> getAllPlants() {
+    public ResponseEntity<?> getAllPlants() {
         try {
-            return plantModel.getAllPlants();
+            List<Plant> plants = plantModel.getAllPlants();
+            return new ResponseEntity<>(plants, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}")
-    public Plant getPlantById(@PathVariable int id) {
+    public ResponseEntity<?> getPlantById(@PathVariable int id) {
         try {
-            return plantModel.getPlantById(id);
+            Plant plant = plantModel.getPlantById(id);
+            return new ResponseEntity<>(plant, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/search")
-    public List<Plant> getPlantsByName(@RequestParam String name) {
+    public ResponseEntity<?> getPlantsByName(@RequestParam String name) {
         try {
-            return plantModel.getPlantsByName(name);
+            List<Plant> plants = plantModel.getPlantsByName(name);
+            return new ResponseEntity<>(plants, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-@PostMapping
-public ResponseEntity<?> addPlant(@RequestBody Plant plant, Principal principal) {
-    try {
-        String email = principal.getName(); // username from JWT
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            return new ResponseEntity<>("USER NOT FOUND", HttpStatus.UNAUTHORIZED);
+    @PostMapping
+    public ResponseEntity<?> addPlant(@RequestBody Plant plant, Principal principal) {
+        try {
+            String email = principal.getName(); // username from JWT
+            User user = userRepository.findByEmail(email);
+            if (user == null) {
+                return new ResponseEntity<>("USER NOT FOUND", HttpStatus.UNAUTHORIZED);
+            }
+
+            plant.setUserId(user.getId()); // get the logged user id
+            Plant saved = plantModel.createPlant(plant);
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        plant.setUserId(user.getId()); // Atribui o ID do usuário logado
-        Plant saved = plantModel.createPlant(plant);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
-
-    } catch (Exception e) {
-        return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
-
 
 @PutMapping("/{id}")
 public ResponseEntity<?> updatePlant(@PathVariable int id, @RequestBody Map<String, Object> updates) {
@@ -84,43 +85,47 @@ public ResponseEntity<?> updatePlant(@PathVariable int id, @RequestBody Map<Stri
         if (updates.containsKey("isWatered")) {
             plant.setIsWatered((Boolean) updates.get("isWatered"));
         }
+        if (updates.containsKey("name")) {
+            plant.setName((String) updates.get("name"));
+        }
+        if (updates.containsKey("species")) {
+            plant.setSpecies((String) updates.get("species"));
+        }
 
-        // outros campos opcionais se quiser
-        Plant updated = plantModel.createPlant(plant);
+        Plant updated = plantRepository.save(plant);
         return new ResponseEntity<>(updated, HttpStatus.OK);
+
     } catch (Exception e) {
         return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePlant(@PathVariable int id, Principal principal) {
+        try {
+            String email = principal.getName();
+            User user = userRepository.findByEmail(email);
 
-   @DeleteMapping("/{id}")
-public ResponseEntity<?> deletePlant(@PathVariable int id, Principal principal) {
-    try {   
-        String email = principal.getName();
-        User user = userRepository.findByEmail(email);
+            if (user == null) {
+                return new ResponseEntity<>("USER NOT FOUND", HttpStatus.UNAUTHORIZED);
+            }
 
-        if (user == null) {
-            return new ResponseEntity<>("USER NOT FOUND", HttpStatus.UNAUTHORIZED);
+            Optional<Plant> optionalPlant = plantRepository.findById(id);
+            if (optionalPlant.isEmpty()) {
+                return new ResponseEntity<>("PLANT NOT FOUND", HttpStatus.NOT_FOUND);
+            }
+
+            Plant plant = optionalPlant.get();
+
+            if (plant.getUserId() != user.getId()) {
+                return new ResponseEntity<>("UNAUTHORIZED DELETE", HttpStatus.FORBIDDEN);
+            }
+
+            plantRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        Optional<Plant> optionalPlant = plantRepository.findById(id);
-        if (optionalPlant.isEmpty()) {
-            return new ResponseEntity<>("PLANT NOT FOUND", HttpStatus.NOT_FOUND);
-        }
-
-        Plant plant = optionalPlant.get();
-
-        // ✅ Compare directly with userId
-        if (plant.getUserId() != user.getId()) {
-            return new ResponseEntity<>("UNAUTHORIZED DELETE", HttpStatus.FORBIDDEN);
-        }
-
-        plantRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-    } catch (Exception e) {
-        return new ResponseEntity<>("ERROR: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
 }

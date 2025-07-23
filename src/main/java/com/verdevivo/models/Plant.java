@@ -1,6 +1,7 @@
 package com.verdevivo.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "plants") // name of the table
@@ -10,6 +11,7 @@ public class Plant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String name;
     private String species;
     private String description;

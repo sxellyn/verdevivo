@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Sign Up modal
+  // sign up modal
   const openSignupBtn       = document.getElementById("openSignupBtn");
   const signupModal         = document.getElementById("signupModal");
   const closeSignupModalBtn = document.getElementById("closeSignupModal");
